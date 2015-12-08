@@ -3,6 +3,8 @@ React = require('react')
 Router = require('react-router').Router
 Route = require('react-router').Route
 
+window.jQuery = window.$ = require('jquery')
+
 # Require route components.
 App = require('./app.coffee')
 Form = require('./form.coffee')

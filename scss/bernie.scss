@@ -150,7 +150,6 @@ section.form {
 }
 
 section.ticket {
-  display: none;
   text-align: center;
   
   div.canvas-container {
@@ -178,6 +177,10 @@ section.ticket {
   }
 }
 
+section.hidden {
+  display: none;
+}
+
 div.email-suggestion {
   background-color: white;
   color: black;
@@ -190,7 +193,6 @@ div.email-suggestion {
   padding: 10px;
   border-radius: 3px;
   font-style: italic;
-  display: none;
   border: solid gray 1px;
 }
 
