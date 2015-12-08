@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'freightsans';
+  src: url('fonts/freightsans_bold-webfont.eot');
+  src: url('fonts/freightsans_bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/freightsans_bold-webfont.woff2') format('woff2'),
+    url('fonts/freightsans_bold-webfont.woff') format('woff'),
+    url('fonts/freightsans_bold-webfont.ttf') format('truetype'),
+    url('fonts/freightsans_bold-webfont.svg#freightsans_boldregular') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'freightsans';
+  src: url('fonts/freightsans_medium-webfont.eot');
+  src: url('fonts/freightsans_medium-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/freightsans_medium-webfont.woff2') format('woff2'),
+    url('fonts/freightsans_medium-webfont.woff') format('woff'),
+    url('fonts/freightsans_medium-webfont.ttf') format('truetype'),
+    url('fonts/freightsans_medium-webfont.svg#freightsans_mediumregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'jubilat';
+  src: url('fonts/jubilatmedium-roman-webfont.eot');
+  src: url('fonts/jubilatmedium-roman-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/jubilatmedium-roman-webfont.woff2') format('woff2'),
+    url('fonts/jubilatmedium-roman-webfont.woff') format('woff'),
+    url('fonts/jubilatmedium-roman-webfont.ttf') format('truetype'),
+    url('fonts/jubilatmedium-roman-webfont.svg#jubilat_mediumregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

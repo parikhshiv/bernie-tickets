@@ -1,0 +1,201 @@
+$orange: #EA504E;
+$lightorange: #F55B5B;
+$blue: #147FD7;
+$lightblue: #8ABFEB;
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+}
+
+div.img-wrapper {
+  text-align: center;
+  margin-bottom: 25px;
+
+  img.logo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+  }
+}
+
+input {
+  vertical-align: middle;
+  appearance: none;
+  border-radius: none;
+}
+
+a.btn {
+  display: block;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: $orange;
+  color: white;
+  height: 42px;
+  font-size: 1.2em;
+  font-family: freightsans;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  border-radius: 3px;
+  border: none;
+  width: 300px;
+  padding-top: 10px;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $lightorange;
+  }
+}
+
+section.form {
+  background-color: $blue;
+  color: white;
+  width: 100%;
+  max-width: 600px;
+  padding: 1.1em 0.8em 2em;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+
+  h2 {
+    font-family: jubilat;
+    font-size: 2.4em;
+    font-weight: 400;
+    font-family: jubilat;
+    margin: 0px 0px 0.2em;
+    text-align: center;
+    padding: 0px 0px 0.5rem;
+  }
+
+  hr {
+    height: 2px;
+    width: 70%;
+    border: medium none;
+    background-color: $lightblue;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  form {
+    width: 90%;
+    margin: 1.4em auto 0px;
+  }
+
+  .first_name, .last_name, .email, .phone, .zip {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    outline: 0px none;
+    padding-left: 1em;
+    font-size: 1.3em;
+    font-family: freightsans;
+    font-weight: 400;
+    font-style: normal;
+    height: 42px;
+    border-radius: 3px;
+    border: 0px none;
+  }
+
+  .checkboxgroup {
+    position: relative;
+    margin-bottom: 5px;
+    font-family: freight-sans-pro;
+    font-weight: 300;
+
+    input[type="checkbox"] {
+      font-size: 1.3em;
+      border: 0px none;
+      font-family: freightsans;
+      color: #333;
+      padding-left: 0.5em;
+      border-radius: 3px;
+      position: absolute;
+      display: block;
+      height: 25px;
+      width: 25px;
+      margin-left: 0px;
+      top: 3px;
+      left: 0px;
+      appearance: checkbox;
+    }
+
+    label {
+      font-family: freightsans;
+      text-transform: uppercase;
+      line-height: 1.35;
+      letter-spacing: 0.1em;
+      color: #FFF;
+      padding-top: 5px;
+      font-size: 1.1em;
+      font-weight: 500;
+      margin: 0px 0px 0px 35px;
+      padding-bottom: 0.2em;
+      display: block;
+
+      &.disclaimer {
+        font-size: 0.8em;
+        line-height: 0.8em;
+      }
+    }
+  }
+}
+
+section.ticket {
+  display: none;
+  text-align: center;
+  
+  div.canvas-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+  }
+
+  #qr-img {
+    display: none;
+  }
+
+  canvas#qr {
+    border: solid 3px $blue;
+  }
+
+  h2 {
+    color: $blue;
+    font-size: 2.4em;
+    font-weight: 400;
+    font-family: jubilat;
+    margin: 0px 0px 0.2em;
+    text-align: center;
+    padding: 0px 0px 0.5rem;
+  }
+}
+
+div.email-suggestion {
+  background-color: white;
+  color: black;
+  margin-top: -9px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-family: freightsans;
+  font-weight: 400;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 3px;
+  font-style: italic;
+  display: none;
+  border: solid gray 1px;
+}
+
+div.email-suggestion .x {
+  float: right;
+  cursor: pointer;
+  padding-right: 3px;
+}
