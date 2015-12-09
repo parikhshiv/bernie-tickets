@@ -201,3 +201,15 @@ div.email-suggestion .x {
   cursor: pointer;
   padding-right: 3px;
 }
+
+div.forms-admin {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 25px;
+
+  table {
+    border: solid black 1px;
+    width: 100%;
+  }
+}

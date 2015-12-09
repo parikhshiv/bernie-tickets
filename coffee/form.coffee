@@ -8,12 +8,16 @@ require('../node_modules/jquery-qrcode/dist/jquery.qrcode')
 module.exports = React.createClass
   displayName: 'Form'
 
+  contextTypes:
+    router: React.PropTypes.func
+
   getInitialState: ->
     {
       view: 'FORM'
       phoneRequired: false
       suggestion: {}
       showSuggestion: false
+      form: @context.router.getCurrentParams().formId
     }
 
   viewForm: ->

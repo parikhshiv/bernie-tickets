@@ -31,7 +31,7 @@ gulp.task 'webpack', ->
           }
         ]
     ))
-    .pipe(uglify())
+    # .pipe(uglify())
     .pipe(concat('production.min.js'))
     .pipe(gulp.dest('dist'))
 
