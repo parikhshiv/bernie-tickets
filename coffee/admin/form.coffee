@@ -3,6 +3,8 @@ Link = require('react-router').Link
 ReactFireMixin = require('reactfire')
 FirebaseUtils = require('../utils/firebaseUtils.coffee')
 
+Field = require('./field.coffee')
+
 module.exports = React.createClass
   mixins: [ReactFireMixin]
   displayName: 'AdminForm'
@@ -23,9 +25,6 @@ module.exports = React.createClass
     e.preventDefault()
     @firebaseRefs['fields'].push(title: 'New Field')
 
-  updateField: (key, field, e) ->
-    @firebaseRefs['fields'].child(key).child(field).set(e.target.value)
-
   componentWillMount: ->
     ref = FirebaseUtils.fb("#{FirebaseUtils.currentUser().uid}/forms/#{@context.router.getCurrentParams().formId}")
     @bindAsObject(ref, 'form')
@@ -37,13 +36,7 @@ module.exports = React.createClass
 
       <div className={'fields'}>
         {for field in @state.fields
-          <div className={'field'} key={field['.key']}>
-            <input type={'text'} value={field.title} onChange={@updateField.bind(null, field['.key'], 'title')} />
-            <select value={field.type} onChange={@updateField.bind(null, field['.key'], 'type')}>
-              <option value={'text'}>Text</option>
-              <option value={'checkbox'}>Checkbox</option>
-            </select>
-          </div>
+          <Field id={field['.key']} key={field['.key']} />
         }
       </div>
 
