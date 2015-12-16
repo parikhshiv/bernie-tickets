@@ -1,6 +1,6 @@
 # bernie-tickets
 
-Code for BernieTickets.con - React + React-Router + CoffeeScript + Firebase
+Code for BernieTickets.com. React + React-Router + CoffeeScript + Firebase
 
 
 ## Development
