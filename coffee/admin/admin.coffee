@@ -15,6 +15,7 @@ module.exports = React.createClass
 
   render: ->
     <div className={'forms-admin'}>
-      <Link to={'logout'}>Logout</Link>
+      <Link to={'logout'} className={'btn logout'}>Logout</Link>
+      <Link to={'adminForms'} className={'btn forms-link'}>All Forms</Link>
       <RouteHandler />
     </div>

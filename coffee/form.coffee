@@ -3,9 +3,12 @@ Link = require('react-router').Link
 MaskedInput = require('react-input-mask')
 Mailcheck = require('mailcheck')
 Fabric = require('fabric').fabric
+FirebaseUtils = require('./utils/firebaseUtils.coffee')
+ReactFireMixin = require('reactfire')
 require('../node_modules/jquery-qrcode/dist/jquery.qrcode')
 
 module.exports = React.createClass
+  mixins: [ReactFireMixin]
   displayName: 'Form'
 
   contextTypes:
@@ -18,6 +21,7 @@ module.exports = React.createClass
       suggestion: {}
       showSuggestion: false
       form: @context.router.getCurrentParams().formId
+      fields: []
     }
 
   viewForm: ->
@@ -46,9 +50,21 @@ module.exports = React.createClass
   declineSuggestion: ->
     @setState(suggestion: {}, showSuggestion: false)
 
+  componentWillMount: ->
+    if @context.router.getCurrentParams().formId
+      # how do i grab the ref without having to refer to currentUser?
+      ref = FirebaseUtils.fb("#{FirebaseUtils.currentUser().uid}/forms/#{@context.router.getCurrentParams().formId}")
+      @bindAsArray(ref.child('fields'), 'fields')
+
+  makeId: (string) ->
+    string = string.toLowerCase()
+    string = string.replace(/[^a-zA-Z ]/g, "")
+    string = string.split(" ").join("")
+
   submitForm: (e) ->
     e.preventDefault()
-    data = 
+
+    data =
       first_name: $('#first_name').val()
       last_name: $('#last_name').val()
       phone: $('#phone').val()
@@ -56,14 +72,23 @@ module.exports = React.createClass
       zip: $('#zip').val()
       canText: $('#canText').prop('checked')
 
-    string = JSON.stringify([
+    for field in @state.fields
+      if field.type
+        data[field.title] = $("##{@makeId(field.title)}").prop('checked')
+      else
+        data[field.title] = $("##{@makeId(field.title)}").val()
+
+    allFields = [
       'first_name'
       'last_name'
       'phone'
       'email'
       'zip'
       'canText'
-    ].map( (key) -> data[key] )).slice(1, -1)
+    ].concat(@state.fields.map( (field) -> field.title ))
+
+    # right now, this JSON string doesn't specify the key - could be a problem with extra columns
+    string = JSON.stringify(allFields.map( (key) -> data[key] )).slice(1, -1)
 
     # Generate QR code
     $('#qr-img').qrcode
@@ -112,6 +137,7 @@ module.exports = React.createClass
     @setState(view: 'TICKET')
 
   render: ->
+
     <div>
       <section className={"form #{'hidden' unless @viewForm()}"}>
         <h2>
@@ -134,6 +160,11 @@ module.exports = React.createClass
 
           <MaskedInput className={'zip'} id={'zip'} name={'zip'} placeholder={'Zip Code'} type={'tel'} required={true} mask={'99999'} />
 
+          {for field, idx in @state.fields
+            unless field.type
+              <input className={'last_name'} key={idx} type={'text'} id={@makeId(field.title)} placeholder={field.title} required={true} />
+          }
+
           <div className={'checkboxgroup'}>
             <input type={'checkbox'} id={'canText'} onChange={@canTextChange} />
             <label htmlFor={'canText'} className={'checkbox-label'}>
@@ -141,6 +172,16 @@ module.exports = React.createClass
               <span className={'disclaimer'}><br />Msg and data rates may apply</span>
             </label>
           </div>
+
+          {for field, idx in @state.fields
+              if field.type == "checkbox"
+                <div className={'checkboxgroup'} key={idx}>
+                  <input type={'checkbox'} id={@makeId(field.title)} />
+                  <label className={'checkbox-label'}>
+                    {field.title}
+                  </label>
+                </div>
+          }
 
           <a href={'#'} className={'btn'} onClick={@submitForm}>Sign Up</a>
         </form>

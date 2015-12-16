@@ -2,6 +2,7 @@ $orange: #EA504E;
 $lightorange: #F55B5B;
 $blue: #147FD7;
 $lightblue: #8ABFEB;
+$lightgray: #F1F1F1;
 
 html {
   font-family: sans-serif;
@@ -151,7 +152,7 @@ section.form {
 
 section.ticket {
   text-align: center;
-  
+
   div.canvas-container {
     margin-left: auto;
     margin-right: auto;
@@ -208,8 +209,113 @@ div.forms-admin {
   margin-right: auto;
   padding: 25px;
 
+  div.form-fields {
+    padding-top: 30px;
+    text-align: center;
+
+    input {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.5em;
+      height: 30px;
+    }
+
+    div.fields {
+      padding-top: 10px;
+      div.field > input, select, a {
+        margin: 10px;
+        height: 20px;
+        font-size: 1em;
+        text-align: center;
+        font-weight: 300;
+      }
+    }
+  }
+
   table {
-    border: solid black 1px;
-    width: 100%;
+    border: solid black 2px;
+    width: 75%;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: $lightgray; 
+
+    th {
+      font-family: jubilat;
+      font-size: 2.0em;
+      font-weight: 400;
+      font-family: jubilat;
+      margin: 0px 0px 0.2em;
+      text-align: center;
+      padding: 0px 0px 0.5rem;
+    }
+
+    td {
+      text-align: center;
+      border-top: 1px solid gray;
+      padding-bottom: 10px;
+    }
+
+    a {
+      font-family: jubilat;
+      font-size: 2.4em;
+      font-weight: 400;
+      font-family: jubilat;
+      margin: 0px 0px 0.2em;
+      text-align: center;
+      padding: 0px 0px 0.5rem;
+    }
+  }
+
+  form.new-form {
+    width: 90%;
+    margin: 1.4em auto 0px;
+    text-align: center;
+
+    input {
+      height: 30px;
+      width: 60%;
+      margin: 0px 5px;
+      font-size: 1.5em;
+    }
+
+
+  }
+
+  button {
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $blue;
+    color: white;
+    height: 30px;
+    font-size: 1em;
+    font-family: freightsans;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    width: 100px;
+    padding-top: 5px;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $lightblue;
+    }
+  }
+
+  p.errors {
+    width: 20%;
+    margin: auto;
+    text-align: center;
+    padding: 1%;
+    color: red;
+  }
+
+  .logout {
+    width: 100px;
+    font-weight: 300;
+    text-transform: none;
+    margin: 0px;
   }
 }

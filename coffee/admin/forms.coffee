@@ -28,10 +28,10 @@ module.exports = React.createClass
 
   render: ->
     <div>
-      <table>
+      <table className="forms">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Form Name</th>
           </tr>
         </thead>
         <tbody>
@@ -46,8 +46,8 @@ module.exports = React.createClass
           }
         </tbody>
       </table>
-      <form onSubmit={@create}>
-        <input onChange={@setText} value={@state.text} />
+      <form onSubmit={@create} className="new-form">
+        <input placeholder={"New form name"} onChange={@setText} value={@state.text} />
         <button>Add Form</button>
       </form>
     </div>

@@ -31,7 +31,7 @@ module.exports = React.createClass
     @bindAsArray(ref.child('fields'), 'fields')
 
   render: ->
-    <div>
+    <div className="form-fields">
       <input type={'text'} value={@state.form.title if @state.form} onChange={@update} />
 
       <div className={'fields'}>
@@ -40,5 +40,8 @@ module.exports = React.createClass
         }
       </div>
 
-      <a href={'#'} onClick={@addField}>Add Field</a>
+      <button onClick={@addField}>Add Field</button>
+      <br/>
+      <br/>
+      <a href="/#/forms/#{@context.router.getCurrentParams().formId}">See How It Will Look</a>
     </div>
