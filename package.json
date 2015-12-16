@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bernie-2016/BernieTicketsReact.git"
+    "url": "git+https://github.com/Bernie-2016/bernie-tickets.git"
   },
   "author": "Zach Schneider <zachschneider@berniesanders.com>",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/Bernie-2016/BernieTicketsReact/issues"
+    "url": "https://github.com/Bernie-2016/bernie-tickets/issues"
   },
-  "homepage": "https://github.com/Bernie-2016/BernieTicketsReact#readme",
+  "homepage": "https://github.com/Bernie-2016/bernie-tickets#readme",
   "devDependencies": {
     "cjsx-loader": "^2.1.0",
     "coffee-loader": "^0.7.2",
