@@ -13,14 +13,14 @@ shell          = require('gulp-shell')
 gulp.task 'clean', ->
   del(['dist/**/*'])
 
-gulp.task 'scss', ->
+gulp.task 'scss', ['clean'], ->
   gulp.src('scss/**/*.scss')
     .pipe(sass())
     .pipe(concat('production.min.css'))
     .pipe(minifycss())
     .pipe(gulp.dest('dist'))
 
-gulp.task 'webpack', ->
+gulp.task 'webpack', ['clean'], ->
   gulp.src('coffee/router.coffee')
     .pipe(webpack(
       module:
@@ -31,11 +31,25 @@ gulp.task 'webpack', ->
           }
         ]
     ))
-    # .pipe(uglify())
+    .pipe(uglify())
     .pipe(concat('production.min.js'))
     .pipe(gulp.dest('dist'))
 
-gulp.task 'copy', ->
+gulp.task 'webpackDev', ['clean'], ->
+  gulp.src('coffee/router.coffee')
+    .pipe(webpack(
+      module:
+        loaders: [
+          {
+            test: /\.coffee$/
+            loaders: ['coffee', 'cjsx']
+          }
+        ]
+    ))
+    .pipe(concat('production.min.js'))
+    .pipe(gulp.dest('dist'))
+
+gulp.task 'copy', ['clean'], ->
   gulp.src([
     'index.html'
     'fonts/*'
@@ -50,7 +64,7 @@ gulp.task 'watch', ->
     gulp.src(event.path).pipe connect.reload()
 
   gulp.watch 'scss/**/*.scss', ['scss']
-  gulp.watch 'coffee/**/*.coffee', ['webpack']
+  gulp.watch 'coffee/**/*.coffee', ['webpackDev']
 
 gulp.task 'connect', ->
   connect.server
@@ -61,12 +75,12 @@ gulp.task 'connect', ->
     connect: 
       redirect: false
 
-gulp.task 'firebase', ['default'], shell.task(['node_modules/.bin/firebase deploy'])
+gulp.task 'firebase', ['build'], shell.task(['node_modules/.bin/firebase deploy'])
 
 gulp.task 'default', [
   'clean'
   'scss'
-  'webpack'
+  'webpackDev'
   'copy'
 ]
 
@@ -76,7 +90,14 @@ gulp.task 'serve', [
   'watch'
 ]
 
+gulp.task 'build', [
+  'clean'
+  'scss'
+  'webpack'
+  'copy'
+]
+
 gulp.task 'deploy', [
-  'default'
+  'build'
   'firebase'
 ]
