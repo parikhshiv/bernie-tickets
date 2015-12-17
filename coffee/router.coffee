@@ -32,6 +32,6 @@ routes = (
   </Route>
 )
 
-Router.run(routes, (Handler) ->
+Router.run(routes, Router.HistoryLocation, (Handler) ->
   ReactDOM.render(<Handler/>, document.getElementById('app'))
 )
