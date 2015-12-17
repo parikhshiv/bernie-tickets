@@ -77,7 +77,7 @@ module.exports = React.createClass
       else
         formData[field.title] = $("##{@makeId(field.title)}").val()
 
-    FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}").push(formData)
+    FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}/responses").push(formData)
 
     data =
       first_name: $('#first_name').val()
