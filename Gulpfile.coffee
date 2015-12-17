@@ -58,13 +58,13 @@ gulp.task 'copy', ['clean'], ->
 
 gulp.task 'watch', ->
   gulp.watch [
-    # 'scss/**/*.scss'
-    # 'coffee/**/*.coffee'
+    'scss/**/*.scss'
+    'coffee/**/*.coffee'
   ], (event) ->
     gulp.src(event.path).pipe connect.reload()
 
-  # gulp.watch 'scss/**/*.scss', ['scss']
-  # gulp.watch 'coffee/**/*.coffee', ['webpackDev']
+  gulp.watch 'scss/**/*.scss', ['default']
+  gulp.watch 'coffee/**/*.coffee', ['default']
 
 gulp.task 'connect', ->
   connect.server

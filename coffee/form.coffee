@@ -64,6 +64,14 @@ module.exports = React.createClass
   submitForm: (e) ->
     e.preventDefault()
 
+    extraData = {}
+
+    for field in @state.fields
+      if field.type
+        extraData[field.title] = $("##{@makeId(field.title)}").prop('checked')
+      else
+        extraData[field.title] = $("##{@makeId(field.title)}").val()
+
     data =
       first_name: $('#first_name').val()
       last_name: $('#last_name').val()
@@ -71,12 +79,7 @@ module.exports = React.createClass
       email: $('#email').val()
       zip: $('#zip').val()
       canText: $('#canText').prop('checked')
-
-    for field in @state.fields
-      if field.type
-        data[field.title] = $("##{@makeId(field.title)}").prop('checked')
-      else
-        data[field.title] = $("##{@makeId(field.title)}").val()
+      extraInfo: JSON.stringify(extraData)
 
     allFields = [
       'first_name'
@@ -85,11 +88,10 @@ module.exports = React.createClass
       'email'
       'zip'
       'canText'
-    ].concat(@state.fields.map( (field) -> field.title ))
-
+      'extraInfo'
+    ]
     # right now, this JSON string doesn't specify the key - could be a problem with extra columns
     string = JSON.stringify(allFields.map( (key) -> data[key] )).slice(1, -1)
-
     # Generate QR code
     $('#qr-img').qrcode
       render: 'image'
