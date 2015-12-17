@@ -52,8 +52,7 @@ module.exports = React.createClass
 
   componentWillMount: ->
     if @context.router.getCurrentParams().formId
-      # how do i grab the ref without having to refer to currentUser?
-      ref = FirebaseUtils.fb("#{FirebaseUtils.currentUser().uid}/forms/#{@context.router.getCurrentParams().formId}")
+      ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().formId}")
       @bindAsArray(ref.child('fields'), 'fields')
 
   makeId: (string) ->
@@ -90,7 +89,7 @@ module.exports = React.createClass
       'canText'
       'extraInfo'
     ]
-    # right now, this JSON string doesn't specify the key - could be a problem with extra columns
+
     string = JSON.stringify(allFields.map( (key) -> data[key] )).slice(1, -1)
     # Generate QR code
     $('#qr-img').qrcode
