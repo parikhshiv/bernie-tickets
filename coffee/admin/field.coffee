@@ -22,7 +22,7 @@ module.exports = React.createClass
     @firebaseRefs['field'].remove()
 
   componentWillMount: ->
-    ref = FirebaseUtils.fb("#{FirebaseUtils.currentUser().uid}/forms/#{@context.router.getCurrentParams().formId}/fields/#{@props.id}")
+    ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().formId}/fields/#{@props.id}")
     @bindAsObject(ref, 'field')
 
   render: ->

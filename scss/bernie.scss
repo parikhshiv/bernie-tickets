@@ -207,8 +207,8 @@ div.forms-admin {
   width: 800px;
   margin-left: auto;
   margin-right: auto;
-  padding: 25px;
-  // background-color: red;
+  padding: 25px 25px 0px 25px;
+  font-family: jubilat;
 
   div.form-fields {
     padding-top: 30px;
@@ -221,14 +221,41 @@ div.forms-admin {
       height: 30px;
     }
 
+    button {
+      width: 185px;
+      height: 30px;
+    }
+
+    a.view {
+      text-decoration: none;
+      color: $orange;
+      font-size: 2.5em;
+
+
+      &:hover {
+        color: $lightorange;
+      }
+    }
+
     div.fields {
-      padding-top: 10px;
-      div.field > input, select, a {
-        margin: 10px;
-        height: 20px;
-        font-size: 1em;
-        text-align: center;
-        font-weight: 300;
+      padding-top: 20px;
+
+      div.field {
+        input, select {
+          margin: 10px;
+          height: 20px;
+          font-size: 1em;
+          text-align: center;
+          font-weight: 300;
+        }
+
+        a {
+          margin: 10px;
+          height: 20px;
+          font-size: 1em;
+          text-align: center;
+          font-weight: 300;
+        }
       }
     }
   }
@@ -237,7 +264,7 @@ div.forms-admin {
     border: solid black 2px;
     width: 75%;
     padding: 10px;
-    margin: 10px auto 0px;
+    margin: 20px auto 0px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
 
     tbody {
@@ -250,13 +277,12 @@ div.forms-admin {
     }
 
     th {
-      font-family: jubilat;
       font-size: 2.4em;
       font-weight: 400;
-      font-family: jubilat;
       margin: 0px 0px 0.2em;
       text-align: center;
       padding: 0px 0px 0.5rem;
+      text-decoration: underline; 
     }
 
     td {
@@ -266,10 +292,8 @@ div.forms-admin {
     }
 
     span {
-      font-family: jubilat;
       font-size: 2.0em;
       font-weight: 400;
-      font-family: jubilat;
       margin: 0px 0px 0.2em;
       text-align: center;
       padding: 0px 0px 0.5rem;
