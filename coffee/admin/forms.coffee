@@ -20,17 +20,20 @@ module.exports = React.createClass
   create: (e) ->
     e.preventDefault()
     return unless @state.text && @state.text.trim().length isnt 0
-    @firebaseRefs['forms'].push(title: @state.text, fields: [])
+    @firebaseRefs['forms'].push(title: @state.text, fields: [], user_id: "#{FirebaseUtils.currentUser().uid}")
     @setState(text: '')
 
   componentWillMount: ->
-    ref = FirebaseUtils.fb("#{FirebaseUtils.currentUser().uid}/forms")
+    ref = FirebaseUtils.fb("forms")
+
     @bindAsArray(ref, 'forms')
 
   formPage: (formId) ->
     @transitionTo('adminForm', {formId: formId})
 
   render: ->
+    forms = @state.forms.filter( (form) -> form.user_id == FirebaseUtils.currentUser().uid)
+
     <div>
       <table className={'forms'}>
         <thead>
@@ -39,7 +42,7 @@ module.exports = React.createClass
           </tr>
         </thead>
         <tbody>
-          {for form in @state.forms
+          {for form in forms
             <tr key={form['.key']} onClick={@formPage.bind(null, form['.key'])}>
               <td>
                 <span>

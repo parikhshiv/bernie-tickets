@@ -7,6 +7,10 @@ module.exports = React.createClass
 
   statics:
     attemptedTransition: null
+    willTransitionTo: (transition) ->
+      return unless FirebaseUtils.loggedIn()
+      attemptedTransition = transition
+      transition.redirect('admin')
 
   getInitialState: ->
     {
