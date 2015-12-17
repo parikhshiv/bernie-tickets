@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Bernie-2016/bernie-tickets#readme",
   "devDependencies": {
+    "coffee-script": "^1.10.0",
     "cjsx-loader": "^2.1.0",
     "coffee-loader": "^0.7.2",
     "del": "^2.2.0",
@@ -42,5 +43,8 @@
     "react-input-mask": "^0.5.6",
     "react-router": "^0.13.5",
     "reactfire": "^0.5.1"
+  },
+  "dependencies": {
+    "fabric": "^1.5.0"
   }
 }

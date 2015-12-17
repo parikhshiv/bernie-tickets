@@ -1,10 +1,11 @@
 React = require('react')
+Router = require('react-router')
 Link = require('react-router').Link
 ReactFireMixin = require('reactfire')
 FirebaseUtils = require('../utils/firebaseUtils.coffee')
 
 module.exports = React.createClass
-  mixins: [ReactFireMixin]
+  mixins: [ReactFireMixin, Router.Navigation]
   displayName: 'AdminForms'
 
   getInitialState: ->
@@ -26,28 +27,31 @@ module.exports = React.createClass
     ref = FirebaseUtils.fb("#{FirebaseUtils.currentUser().uid}/forms")
     @bindAsArray(ref, 'forms')
 
+  formPage: (formId) ->
+    @transitionTo('adminForm', {formId: formId})
+
   render: ->
     <div>
-      <table>
+      <table className="forms">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Your Customized Forms</th>
           </tr>
         </thead>
         <tbody>
           {for form in @state.forms
-            <tr key={form['.key']}>
+            <tr key={form['.key']} onClick={@formPage.bind(null, form['.key'])}>
               <td>
-                <Link to={'adminForm'} params={formId: form['.key']}>
+                <span>
                   { form.title }
-                </Link>
+                </span>
               </td>
             </tr>
           }
         </tbody>
       </table>
-      <form onSubmit={@create}>
-        <input onChange={@setText} value={@state.text} />
-        <button>Add Form</button>
+      <form onSubmit={@create} className="new-form">
+        <input placeholder={"New Form Name"} onChange={@setText} value={@state.text} />
+        <button>Create New Form</button>
       </form>
     </div>

@@ -29,11 +29,11 @@ module.exports = React.createClass
   render: ->
     <div className={'forms-admin'}>
       <form onSubmit={@handleSubmit}>
-        <a href={'#'} onClick={@login}>
+        <a href={'#'} className={'btn'} onClick={@login}>
           Login
         </a>
         {if @state.error
-          <p>Error on Login</p>
+          <p className={'errors'}>Error on Login</p>
         }
       </form>
     </div>

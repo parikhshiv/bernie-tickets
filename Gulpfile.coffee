@@ -63,16 +63,16 @@ gulp.task 'watch', ->
   ], (event) ->
     gulp.src(event.path).pipe connect.reload()
 
-  gulp.watch 'scss/**/*.scss', ['scss']
-  gulp.watch 'coffee/**/*.coffee', ['webpackDev']
+  gulp.watch 'scss/**/*.scss', ['default']
+  gulp.watch 'coffee/**/*.coffee', ['default']
 
 gulp.task 'connect', ->
   connect.server
     root: [ 'dist' ]
     port: 9010
-    livereload: 
+    livereload:
       port: 32834
-    connect: 
+    connect:
       redirect: false
 
 gulp.task 'firebase', ['build'], shell.task(['node_modules/.bin/firebase deploy'])

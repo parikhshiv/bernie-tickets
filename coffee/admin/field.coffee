@@ -17,7 +17,7 @@ module.exports = React.createClass
   update: (field, e) ->
     @firebaseRefs['field'].child(field).set(e.target.value)
 
-  remove: (e) ->
+  remove: (field, e) ->
     e.preventDefault()
     @firebaseRefs['field'].remove()
 
