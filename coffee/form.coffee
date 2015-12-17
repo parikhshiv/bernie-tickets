@@ -63,21 +63,22 @@ module.exports = React.createClass
   submitForm: (e) ->
     e.preventDefault()
 
-    formData =
-      first_name: $('#first_name').val()
-      last_name: $('#last_name').val()
-      phone: $('#phone').val()
-      email: $('#email').val()
-      zip: $('#zip').val()
-      canText: $('#canText').prop('checked')
+    if @context.router.getCurrentParams().slug
+      formData =
+        first_name: $('#first_name').val()
+        last_name: $('#last_name').val()
+        phone: $('#phone').val()
+        email: $('#email').val()
+        zip: $('#zip').val()
+        canText: $('#canText').prop('checked')
 
-    for field in @state.fields
-      if field.type is 'checkbox'
-        formData[field.title] = $("##{@makeId(field.title)}").prop('checked')
-      else
-        formData[field.title] = $("##{@makeId(field.title)}").val()
+      for field in @state.fields
+        if field.type is 'checkbox'
+          formData[field.title] = $("##{@makeId(field.title)}").prop('checked')
+        else
+          formData[field.title] = $("##{@makeId(field.title)}").val()
 
-    FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}/responses").push(formData)
+      FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}/responses").push(formData)
 
     data =
       first_name: $('#first_name').val()
