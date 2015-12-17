@@ -15,7 +15,8 @@ module.exports = React.createClass
   getInitialState: ->
     {
       form: null
-      fields: [],
+      fields: []
+      responses: []
     }
 
   updateTitle: (e) ->
@@ -25,28 +26,60 @@ module.exports = React.createClass
     e.preventDefault()
     @firebaseRefs['fields'].push(title: 'New Field')
 
+  download: (e) ->
+    e.preventDefault()
+    columns = ['First name', 'Last name', 'Phone', 'Email', 'Zip', 'Can text?']
+    columns.push field.title for field in @state.fields
+
+    data = [columns]
+
+    for response in @state.responses
+      row = [response.first_name, response.last_name, response.phone, response.email, response.zip, response.canText]
+      row.push response[field.title] for field in @state.fields
+      data.push row
+
+    csvContent = 'data:text/csv;charset=utf-8,'
+
+    for row, index in data
+      csvContent += row.join(',')
+      csvContent += "\n" if index < data.length
+
+    window.open(encodeURI(csvContent))
+
   componentWillMount: ->
     ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}")
     @bindAsObject(ref, 'form')
     @bindAsArray(ref.child('fields'), 'fields')
+    @bindAsArray(ref.child('responses'), 'responses')
 
   render: ->
-    <div className={'form-fields'}>
-      <label>Form Name: </label>
-      <input type={'text'} value={@state.form.title if @state.form} onChange={@updateTitle} />
-      <br />
+    <div>
+      <div className={'admin-form-section'}>
+        <label>Form Name: </label>
+        <input type={'text'} value={@state.form.title if @state.form} onChange={@updateTitle} />
+        <br />
 
-      <div className={'fields'}>
-        {for field in @state.fields
-          <Field id={field['.key']} key={field['.key']} />
+        <div className={'fields'}>
+          {for field in @state.fields
+            <Field id={field['.key']} key={field['.key']} />
+          }
+        </div>
+
+        <button onClick={@addField}>Add A Custom Field</button>
+        <br/>
+        <br/>
+
+        {if @state.form
+          <Link to={'form'} params={slug: @state.form['.key']} className={'view'}>See How It Looks! -></Link>
         }
       </div>
 
-      <button onClick={@addField}>Add A Custom Field</button>
-      <br/>
-      <br/>
+      <hr />
 
-      {if @state.form
-        <Link to={'form'} params={slug: @state.form['.key']} className={'view'}>See How It Looks! -></Link>
-      }
+      <div className={'admin-form-section'}>
+        <span>Responses: {@state.responses.length}</span>
+        <br />
+        <br />
+        <a onClick={@download} className={'btn forms-link'}>Download</a>
+      </div>
     </div>
