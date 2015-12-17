@@ -7,6 +7,7 @@ coffee         = require('gulp-cjsx')
 uglify         = require('gulp-uglify')
 concat         = require('gulp-concat')
 copy           = require('gulp-copy')
+rename         = require('gulp-rename')
 connect        = require('gulp-connect')
 shell          = require('gulp-shell')
 
@@ -56,6 +57,11 @@ gulp.task 'copy', ['clean'], ->
     'img/*'
   ]).pipe(copy('dist'))
 
+gulp.task 'copyProd', ['clean'], ->
+  gulp.src('index.html')
+    .pipe(rename('404.html'))
+    .pipe(gulp.dest('dist'))
+
 gulp.task 'watch', ->
   gulp.watch [
     'scss/**/*.scss'
@@ -69,6 +75,7 @@ gulp.task 'watch', ->
 gulp.task 'connect', ->
   connect.server
     root: [ 'dist' ]
+    fallback: 'index.html'
     port: 9010
     livereload:
       port: 32834
@@ -95,6 +102,7 @@ gulp.task 'build', [
   'scss'
   'webpack'
   'copy'
+  'copyProd'
 ]
 
 gulp.task 'deploy', [

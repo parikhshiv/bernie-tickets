@@ -18,7 +18,7 @@ module.exports = React.createClass
       fields: [],
     }
 
-  update: (e) ->
+  updateTitle: (e) ->
     @firebaseRefs['form'].update(title: e.target.value)
 
   addField: (e) ->
@@ -26,14 +26,15 @@ module.exports = React.createClass
     @firebaseRefs['fields'].push(title: 'New Field')
 
   componentWillMount: ->
-    ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().formId}")
+    ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}")
     @bindAsObject(ref, 'form')
     @bindAsArray(ref.child('fields'), 'fields')
 
   render: ->
     <div className={'form-fields'}>
-      <label>Form Name (click to edit): </label>
-      <input type={'text'} value={@state.form.title if @state.form} onChange={@update} />
+      <label>Form Name: </label>
+      <input type={'text'} value={@state.form.title if @state.form} onChange={@updateTitle} />
+      <br />
 
       <div className={'fields'}>
         {for field in @state.fields
@@ -44,5 +45,8 @@ module.exports = React.createClass
       <button onClick={@addField}>Add A Custom Field</button>
       <br/>
       <br/>
-      <a href="/#/forms/#{@context.router.getCurrentParams().formId}" className={'view'}>See How It Looks! -> </a>
+
+      {if @state.form
+        <Link to={'form'} params={slug: @state.form['.key']} className={'view'}>See How It Looks! -></Link>
+      }
     </div>

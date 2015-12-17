@@ -8,7 +8,7 @@ module.exports = React.createClass
   render: ->
     <div>
       <div className={'img-wrapper'}>
-        <img className={'logo'} src={'img/logo.png'} alt={'Bernie 2016'} />
+        <img className={'logo'} src={'/img/logo.png'} alt={'Bernie 2016'} />
       </div>
       <RouteHandler />
       <div className={'footer-offset'}>
@@ -23,7 +23,7 @@ module.exports = React.createClass
           </p>
           <span className={'billionaires'}>
             <svg width='200' height='40'>
-              <image xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='img/billionaires.svg' width='200' height='40' x='0' />
+              <image xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='/img/billionaires.svg' width='200' height='40' x='0' />
             </svg>
             (not the billionaires)
           </span>

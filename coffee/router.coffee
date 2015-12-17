@@ -24,11 +24,11 @@ routes = (
     <Route name='logout' handler={Logout} />
 
     <Route name='admin' handler={Admin}>
-      <Route name='adminForm' path='/admin/forms/:formId' handler={AdminForm} />
+      <Route name='adminForm' path='/admin/forms/:slug' handler={AdminForm} />
       <Route name='adminForms' path='/admin/forms' handler={AdminForms} />
     </Route>
 
-    <Route name='form' path='/forms/:formId' handler={Form} />
+    <Route name='form' path='/:slug' handler={Form} />
   </Route>
 )
 

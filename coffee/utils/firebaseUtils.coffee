@@ -5,7 +5,9 @@ cachedUser = null
 module.exports = 
   login: (cb) ->
     ref.authWithOAuthPopup('google', (error, authData) ->
-      error = true if authData.google.email.indexOf('@berniesanders.com') is -1
+      if authData.google.email.indexOf('@berniesanders.com') is -1
+        ref.unauth()
+        error = true
       cachedUser = authData unless error
       cb(cachedUser, error)
     , {

@@ -20,7 +20,7 @@ module.exports = React.createClass
       phoneRequired: false
       suggestion: {}
       showSuggestion: false
-      form: @context.router.getCurrentParams().formId
+      form: @context.router.getCurrentParams().slug
       fields: []
     }
 
@@ -51,8 +51,8 @@ module.exports = React.createClass
     @setState(suggestion: {}, showSuggestion: false)
 
   componentWillMount: ->
-    if @context.router.getCurrentParams().formId
-      ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().formId}")
+    if @context.router.getCurrentParams().slug
+      ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}")
       @bindAsArray(ref.child('fields'), 'fields')
 
   makeId: (string) ->
@@ -63,13 +63,21 @@ module.exports = React.createClass
   submitForm: (e) ->
     e.preventDefault()
 
-    extraData = {}
+    formData =
+      first_name: $('#first_name').val()
+      last_name: $('#last_name').val()
+      phone: $('#phone').val()
+      email: $('#email').val()
+      zip: $('#zip').val()
+      canText: $('#canText').prop('checked')
 
     for field in @state.fields
-      if field.type
-        extraData[field.title] = $("##{@makeId(field.title)}").prop('checked')
+      if field.type is 'checkbox'
+        formData[field.title] = $("##{@makeId(field.title)}").prop('checked')
       else
-        extraData[field.title] = $("##{@makeId(field.title)}").val()
+        formData[field.title] = $("##{@makeId(field.title)}").val()
+
+    FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}").push(formData)
 
     data =
       first_name: $('#first_name').val()
@@ -78,7 +86,6 @@ module.exports = React.createClass
       email: $('#email').val()
       zip: $('#zip').val()
       canText: $('#canText').prop('checked')
-      extraInfo: JSON.stringify(extraData)
 
     allFields = [
       'first_name'
@@ -87,7 +94,6 @@ module.exports = React.createClass
       'email'
       'zip'
       'canText'
-      'extraInfo'
     ]
 
     string = JSON.stringify(allFields.map( (key) -> data[key] )).slice(1, -1)

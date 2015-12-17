@@ -12,24 +12,29 @@ module.exports = React.createClass
     {
       forms: []
       text: ''
+      url: ''
     }
 
   setText: (e) ->
     @setState(text: e.target.value)
 
+  setURL: (e) ->
+    @setState(url: e.target.value)
+
   create: (e) ->
     e.preventDefault()
     return unless @state.text && @state.text.trim().length isnt 0
-    @firebaseRefs['forms'].push(title: @state.text, fields: [], user_id: "#{FirebaseUtils.currentUser().uid}")
-    @setState(text: '')
+    return unless @state.url && @state.url.trim().length isnt 0
+    @firebaseRefs['forms'].child(@state.url).set(title: @state.text, fields: [], user_id: "#{FirebaseUtils.currentUser().uid}")
+    @setState(text: '', url: '')
 
   componentWillMount: ->
     ref = FirebaseUtils.fb("forms")
 
     @bindAsArray(ref, 'forms')
 
-  formPage: (formId) ->
-    @transitionTo('adminForm', {formId: formId})
+  formPage: (slug) ->
+    @transitionTo('adminForm', {slug: slug})
 
   render: ->
     forms = @state.forms.filter( (form) -> form.user_id == FirebaseUtils.currentUser().uid)
@@ -55,6 +60,10 @@ module.exports = React.createClass
       </table>
       <form onSubmit={@create} className={'new-form'}>
         <input placeholder={"New Form Name"} onChange={@setText} value={@state.text} />
+        <br />
+        <input placeholder={"New Form URL"} onChange={@setURL} value={@state.url} />
+        <br />
+        <br />
         <button>Create New Form</button>
       </form>
     </div>
