@@ -31,7 +31,7 @@ module.exports = React.createClass
     @bindAsArray(ref.child('fields'), 'fields')
 
   render: ->
-    <div className="form-fields">
+    <div className={'form-fields'}>
       <input type={'text'} value={@state.form.title if @state.form} onChange={@update} />
 
       <div className={'fields'}>
