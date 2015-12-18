@@ -1,37 +1,35 @@
 ReactDOM = require('react-dom')
 React = require('react')
-Router = require('react-router')
+Router = require('react-router').Router
 Route = require('react-router').Route
-DefaultRoute = require('react-router').DefaultRoute
+createBrowserHistory = require('history/lib/createBrowserHistory')
 FirebaseUtils = require('./utils/firebaseUtils.coffee')
 
 window.jQuery = window.$ = require('jquery')
+window._ = require('lodash')
 
 # Require route components.
-App = require('./app.coffee')
-Form = require('./form.coffee')
-Login = require('./auth/login.coffee')
-Logout = require('./auth/logout.coffee')
-Admin = require('./admin/admin.coffee')
-AdminForms = require('./admin/forms.coffee')
-AdminForm = require('./admin/form.coffee')
+App = require('./components/app.coffee')
+Form = require('./components/form.coffee')
+Login = require('./components/login.coffee')
+Admin = require('./components/admin.coffee')
+AdminForms = require('./components/adminForms.coffee')
+AdminForm = require('./components/adminForm.coffee')
 
-routes = (
-  <Route path='/' handler={App}>
-    <DefaultRoute handler={Form} />
+# Define up and render routes.
+router = (
+  <Router history={createBrowserHistory()}>
+    <Route component={App}>
+      <Route component={Admin}>
+        <Route path='/admin/forms/:slug' component={AdminForm} />
+        <Route path='/admin/forms' component={AdminForms} />
+        <Route path='/admin' component={AdminForms} />
+      </Route>
 
-    <Route name='login' handler={Login} />
-    <Route name='logout' handler={Logout} />
-
-    <Route name='admin' handler={Admin}>
-      <Route name='adminForm' path='/admin/forms/:slug' handler={AdminForm} />
-      <Route name='adminForms' path='/admin/forms' handler={AdminForms} />
+      <Route path='login' component={Login} />
+      <Route path='/:slug' component={Form} />
+      <Route path='/' component={Form} />
     </Route>
-
-    <Route name='form' path='/:slug' handler={Form} />
-  </Route>
+  </Router>
 )
-
-Router.run(routes, Router.HistoryLocation, (Handler) ->
-  ReactDOM.render(<Handler/>, document.getElementById('app'))
-)
+ReactDOM.render(router, document.getElementById('app'))

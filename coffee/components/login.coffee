@@ -1,16 +1,10 @@
 React = require('react')
-Router = require('react-router')
+History = require('react-router').History
 FirebaseUtils = require('../utils/firebaseUtils.coffee')
 
 module.exports = React.createClass
-  mixins: [Router.Navigation]
-
-  statics:
-    attemptedTransition: null
-    willTransitionTo: (transition) ->
-      return unless FirebaseUtils.loggedIn()
-      attemptedTransition = transition
-      transition.redirect('admin')
+  mixins: [History]
+  displayName: 'Login'
 
   getInitialState: ->
     {
@@ -23,12 +17,8 @@ module.exports = React.createClass
     FirebaseUtils.login (user, error) =>
       if error
         @setState(error: error)
-      else if @constructor.attemptedTransition
-        transition = @constructor.attemptedTransition
-        @constructor.attemptedTransition = null
-        transition.retry()
       else
-        @transitionTo('admin')
+        @history.pushState(null, '/admin')
 
   render: ->
     <div className={'forms-admin'}>

@@ -1,6 +1,4 @@
 React = require('react')
-Link = require('react-router').Link
-RouteHandler = require('react-router').RouteHandler
 
 module.exports = React.createClass
   displayName: 'App'
@@ -10,7 +8,7 @@ module.exports = React.createClass
       <div className={'img-wrapper'}>
         <img className={'logo'} src={'/img/logo.png'} alt={'Bernie 2016'} />
       </div>
-      <RouteHandler />
+      {@props.children}
       <div className={'footer-offset'}>
         <footer>
           <p className={'address'}>

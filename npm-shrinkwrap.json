@@ -1,0 +1,24 @@
+{
+  "name": "bernie-tickets",
+  "version": "1.0.0",
+  "dependencies": {
+    "fabric": {
+      "version": "1.6.0-rc.1",
+      "from": "fabric@1.6.0-rc1",
+      "dependencies": {
+        "canvas": {
+          "version": "1.3.5",
+          "from": "canvas@1.3.5"
+        },
+        "jsdom": {
+          "version": "6.5.1",
+          "from": "jsdom@6.5.1"
+        }
+      }
+    },
+    "history": {
+      "version": "1.13.1",
+      "from": "history@1.13.1"
+    }
+  }
+}

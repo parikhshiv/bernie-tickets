@@ -1,11 +1,10 @@
 React = require('react')
-Link = require('react-router').Link
 MaskedInput = require('react-input-mask')
 Mailcheck = require('mailcheck')
 Fabric = require('fabric').fabric
-FirebaseUtils = require('./utils/firebaseUtils.coffee')
+FirebaseUtils = require('../utils/firebaseUtils.coffee')
 ReactFireMixin = require('reactfire')
-require('../node_modules/jquery-qrcode/dist/jquery.qrcode')
+require('../../node_modules/jquery-qrcode/dist/jquery.qrcode')
 
 module.exports = React.createClass
   mixins: [ReactFireMixin]
@@ -20,7 +19,6 @@ module.exports = React.createClass
       phoneRequired: false
       suggestion: {}
       showSuggestion: false
-      form: @context.router.getCurrentParams().slug
       fields: []
     }
 
@@ -51,8 +49,8 @@ module.exports = React.createClass
     @setState(suggestion: {}, showSuggestion: false)
 
   componentWillMount: ->
-    if @context.router.getCurrentParams().slug
-      ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}")
+    if @props.params.slug
+      ref = FirebaseUtils.fb("forms/#{@props.params.slug}")
       @bindAsArray(ref.child('fields'), 'fields')
 
   makeId: (string) ->
@@ -63,23 +61,6 @@ module.exports = React.createClass
   submitForm: (e) ->
     e.preventDefault()
 
-    if @context.router.getCurrentParams().slug
-      formData =
-        first_name: $('#first_name').val()
-        last_name: $('#last_name').val()
-        phone: $('#phone').val()
-        email: $('#email').val()
-        zip: $('#zip').val()
-        canText: $('#canText').prop('checked')
-
-      for field in @state.fields
-        if field.type is 'checkbox'
-          formData[field.title] = $("##{@makeId(field.title)}").prop('checked')
-        else
-          formData[field.title] = $("##{@makeId(field.title)}").val()
-
-      FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}/responses").push(formData)
-
     data =
       first_name: $('#first_name').val()
       last_name: $('#last_name').val()
@@ -88,6 +69,19 @@ module.exports = React.createClass
       zip: $('#zip').val()
       canText: $('#canText').prop('checked')
 
+    # If this is a custom form, save the response to Firebase.
+    if @props.params.slug
+      formData = _.cloneDeep(data)
+
+      for field in @state.fields
+        if field.type is 'checkbox'
+          formData[field.title] = $("##{@makeId(field.title)}").prop('checked')
+        else
+          formData[field.title] = $("##{@makeId(field.title)}").val()
+
+      FirebaseUtils.fb("forms/#{@props.params.slug}/responses").push(formData)
+
+    # Stringify basic fields.
     allFields = [
       'first_name'
       'last_name'
@@ -96,8 +90,8 @@ module.exports = React.createClass
       'zip'
       'canText'
     ]
-
     string = JSON.stringify(allFields.map( (key) -> data[key] )).slice(1, -1)
+
     # Generate QR code
     $('#qr-img').qrcode
       render: 'image'
@@ -145,7 +139,6 @@ module.exports = React.createClass
     @setState(view: 'TICKET')
 
   render: ->
-
     <div>
       <section className={"form #{'hidden' unless @viewForm()}"}>
         <h2>
@@ -168,9 +161,8 @@ module.exports = React.createClass
 
           <MaskedInput className={'zip'} id={'zip'} name={'zip'} placeholder={'Zip Code'} type={'tel'} required={true} mask={'99999'} />
 
-          {for field, idx in @state.fields
-            unless field.type
-              <input className={'last_name'} key={idx} type={'text'} id={@makeId(field.title)} placeholder={field.title} required={true} />
+          {for field, idx in @state.fields when field.type is 'text'
+            <input className={'custom_field'} key={idx} type={'text'} id={@makeId(field.title)} placeholder={field.title} required={true} />
           }
 
           <div className={'checkboxgroup'}>
@@ -181,14 +173,13 @@ module.exports = React.createClass
             </label>
           </div>
 
-          {for field, idx in @state.fields
-              if field.type == "checkbox"
-                <div className={'checkboxgroup'} key={idx}>
-                  <input type={'checkbox'} id={@makeId(field.title)} />
-                  <label className={'checkbox-label'}>
-                    {field.title}
-                  </label>
-                </div>
+          {for field, idx in @state.fields when field.type is 'checkbox'
+            <div className={'checkboxgroup'} key={idx}>
+              <input type={'checkbox'} id={@makeId(field.title)} />
+              <label className={'checkbox-label'}>
+                {field.title}
+              </label>
+            </div>
           }
 
           <a href={'#'} className={'btn'} onClick={@submitForm}>Sign Up</a>

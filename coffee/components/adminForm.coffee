@@ -3,7 +3,7 @@ Link = require('react-router').Link
 ReactFireMixin = require('reactfire')
 FirebaseUtils = require('../utils/firebaseUtils.coffee')
 
-Field = require('./field.coffee')
+Field = require('./adminFormField.coffee')
 
 module.exports = React.createClass
   mixins: [ReactFireMixin]
@@ -24,7 +24,7 @@ module.exports = React.createClass
 
   addField: (e) ->
     e.preventDefault()
-    @firebaseRefs['fields'].push(title: 'New Field')
+    @firebaseRefs['fields'].push(title: 'New Field', type: 'text')
 
   download: (e) ->
     e.preventDefault()
@@ -47,7 +47,7 @@ module.exports = React.createClass
     window.open(encodeURI(csvContent))
 
   componentWillMount: ->
-    ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}")
+    ref = FirebaseUtils.fb("forms/#{@props.params.slug}")
     @bindAsObject(ref, 'form')
     @bindAsArray(ref.child('fields'), 'fields')
     @bindAsArray(ref.child('responses'), 'responses')
@@ -61,7 +61,7 @@ module.exports = React.createClass
 
         <div className={'fields'}>
           {for field in @state.fields
-            <Field id={field['.key']} key={field['.key']} />
+            <Field id={field['.key']} slug={@props.params.slug} key={field['.key']} />
           }
         </div>
 
@@ -70,7 +70,7 @@ module.exports = React.createClass
         <br/>
 
         {if @state.form
-          <Link to={'form'} params={slug: @state.form['.key']} className={'view'}>See How It Looks! -></Link>
+          <Link to={"/#{@state.form['.key']}"} className={'view'}>See How It Looks! -></Link>
         }
       </div>
 

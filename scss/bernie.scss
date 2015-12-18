@@ -91,7 +91,7 @@ section.form {
     margin: 1.4em auto 0px;
   }
 
-  .first_name, .last_name, .email, .phone, .zip {
+  .first_name, .last_name, .email, .phone, .zip, .custom_field {
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 0.5rem;
@@ -209,6 +209,10 @@ div.forms-admin {
   margin-right: auto;
   padding: 25px 25px 0px 25px;
   font-family: jubilat;
+
+  input.error {
+    outline: solid red 1px;
+  }
 
   div.admin-form-section {
     padding-top: 30px;

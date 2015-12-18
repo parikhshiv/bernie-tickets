@@ -12,22 +12,27 @@ module.exports = React.createClass
   getInitialState: ->
     {
       field: null
+      nameError: false
     }
 
   update: (field, e) ->
-    @firebaseRefs['field'].child(field).set(e.target.value)
+    if e.target.value && e.target.value.trim().length isnt 0
+      @firebaseRefs['field'].child(field).set(e.target.value)
+      @setState(nameError: false)
+    else
+      @setState(nameError: true)
 
   remove: (field, e) ->
     e.preventDefault()
     @firebaseRefs['field'].remove()
 
   componentWillMount: ->
-    ref = FirebaseUtils.fb("forms/#{@context.router.getCurrentParams().slug}/fields/#{@props.id}")
+    ref = FirebaseUtils.fb("forms/#{@props.slug}/fields/#{@props.id}")
     @bindAsObject(ref, 'field')
 
   render: ->
     <div className={'field'}>
-      <input type={'text'} value={@state.field.title if @state.field} onChange={@update.bind(null, 'title')} />
+      <input type={'text'} defaultValue={@state.field.title if @state.field} className={'error' if @state.nameError} onChange={@update.bind(null, 'title')} />
       <select value={@state.field.type if @state.field} onChange={@update.bind(null, 'type')}>
         <option value={'text'}>Text</option>
         <option value={'checkbox'}>Checkbox</option>
