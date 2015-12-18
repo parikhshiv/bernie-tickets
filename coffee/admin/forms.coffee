@@ -23,8 +23,15 @@ module.exports = React.createClass
 
   create: (e) ->
     e.preventDefault()
-    return unless @state.text && @state.text.trim().length isnt 0
-    return unless @state.url && @state.url.trim().length isnt 0
+    unless @state.text && @state.text.trim().length isnt 0
+      alert 'Name cannot be blank'
+      return
+    unless @state.url && @state.url.trim().length isnt 0
+      alert 'URL cannot be blank'
+      return 
+    unless (new RegExp('^[a-zA-Z0-9_-]+$')).test(@state.url)
+      alert 'URL can only contain letters, numbers, dashes, and underscores'
+      return
     @firebaseRefs['forms'].child(@state.url).set(title: @state.text, fields: [], user_id: "#{FirebaseUtils.currentUser().uid}")
     @setState(text: '', url: '')
 
