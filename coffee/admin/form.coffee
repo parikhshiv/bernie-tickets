@@ -15,7 +15,7 @@ module.exports = React.createClass
   getInitialState: ->
     {
       form: null
-      fields: [],
+      fields: []
     }
 
   update: (e) ->
